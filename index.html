@@ -111,12 +111,80 @@ aside{position:relative}
 /* Esker oneko eskaintza, alboko nabigazioaren azpian */
 .sidebar-dedication{margin:0 11px;padding:14px 0 0;border-top:1px solid var(--line);color:var(--sub);font-size:12px;line-height:1.6;font-style:italic;font-weight:400;max-width:205px;}
 .sidebar-dedication .signature{display:block;text-align:right;margin-top:6px;font-size:11px;font-style:normal;letter-spacing:.02em;}
+
+/* V11 · Responsive navigation and compact mobile workspace */
+:root{--touch:42px}
+.sidebar-backdrop{display:none}
+.sidebar-opener{display:none}
+.app.sidebar-collapsed .sidebar-opener{display:inline-flex}
+.sidebar-close{width:31px;height:31px;background:transparent;border-color:transparent}
+.sidebar-close:hover{background:var(--active)}
+.sidebar-close svg{width:18px;height:18px;stroke:currentColor;stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.brand{padding-right:2px}
+/* Medium screens keep a comfortable content width */
+@media (min-width:761px) and (max-width:1100px){
+ .app{grid-template-columns:212px minmax(0,1fr)}
+ main{padding:19px 25px 60px}
+ .fields{gap:12px}
+}
+@media(max-width:760px){
+ .app,.app.sidebar-collapsed{display:block}
+ main{padding:12px 14px 48px}
+ .app-header{margin:0 0 9px;gap:10px;min-height:42px}
+ .app-header .wordmark{font-size:19px}
+ .header-context{font-size:11px;text-align:right;line-height:1.25}
+ .sidebar-opener,.app.sidebar-collapsed .sidebar-opener{display:inline-flex;width:36px;height:36px}
+ .current-selection{gap:6px 9px;margin-bottom:8px;padding-bottom:9px}
+ .current-selection .selection-main{font-size:13px}
+ .current-selection .selection-sub{font-size:12px}
+ .current-selection .btn{font-size:12px;min-height:34px;padding:7px 9px;margin-left:auto}
+ .configuration{padding:11px 12px;margin-bottom:10px}
+ .configuration .section{padding:8px 0}
+ .configuration .section h2{font-size:13px;margin-bottom:7px}
+ .configuration .section-head{align-items:center}
+ .configuration .section-head .help{font-size:11px}
+ #mobile-block .choose{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+ #mobile-block .chip{min-width:0;text-align:center;font-size:12px;padding:9px 5px;min-height:38px}
+ .chip{font-size:12px;padding:8px 9px;min-height:36px}
+ #systems{gap:6px}
+ .segment{width:100%}
+ .segment button{font-size:12px;min-height:36px;padding:7px 3px}
+ .exam-options{gap:12px;margin-top:8px}
+ .work-section{padding-top:5px}
+ .work-section h2{font-size:18px}
+ .work-section .help{font-size:12px}
+ .work-section .toolbar{margin:9px 0 10px;gap:6px}
+ .work-section .toolbar .btn{font-size:12px;padding:8px 9px;min-height:36px}
+ .work-section .prompt{padding:12px 0}
+ .work-section .prompt .value{font-size:clamp(26px,8vw,37px)}
+ .answer-line{padding:11px 0;gap:10px}
+ .answer-line span{font-size:12px;max-width:65%}
+ .answer-line strong{font-size:16px;text-align:right}
+ .fields{grid-template-columns:minmax(0,1fr);gap:13px}
+ .field-entry{gap:6px}
+ .field-entry input{font-size:16px;min-height:42px}
+ .field-entry .check-field{min-height:42px}
+ .exercise{padding:15px 0}
+ .exercise h3{font-size:17px}
+ /* Off-canvas nav and backdrop instead of pushing exercise off-screen */
+ .app:not(.sidebar-collapsed) aside{display:flex!important;position:fixed;top:0;left:0;bottom:0;width:min(290px,86vw);height:100dvh;z-index:51;box-shadow:8px 0 25px #00000012;overflow-y:auto;padding:20px 14px;visibility:visible}
+ .app.sidebar-collapsed aside{display:none!important}
+ .app:not(.sidebar-collapsed) .sidebar-backdrop{display:block!important;position:fixed;inset:0;z-index:50;border:0;background:rgba(0,0,0,.28);width:100%;height:100%;cursor:pointer}
+ .aside-footer{padding-bottom:18px}
+}
+@media(max-width:390px){
+ main{padding:10px 11px 42px}
+ .header-context{font-size:10px}
+ #systems .chip{font-size:11px;padding:8px 7px}
+ .current-selection .selection-sub{max-width:48%;overflow-wrap:anywhere}
+}
 </style>
 </head>
 <body>
 <div class="app">
+ <button id="sidebar-backdrop" class="sidebar-backdrop" type="button" aria-label="Alboko menua itxi" hidden></button>
  <aside id="sidebar" aria-label="Aditz multzoak">
-  <div class="brand"><div class="brand-name"><strong class="wordmark">aditzapp</strong></div></div>
+  <div class="brand"><div class="brand-name"><strong class="wordmark">aditzapp</strong></div><button id="sidebar-close" class="icon-button sidebar-close" type="button" aria-label="Alboko barra tolestu" title="Alboko barra tolestu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 5l-7 7 7 7"/></svg></button></div>
   <nav aria-label="Aditz multzoak"><div class="side-label">ADITZ MULTZOAK</div>
    <button class="side-btn active" data-block="indikatiboa">Indikatiboa</button>
    <button class="side-btn" data-block="baldintza">Baldintza</button>
@@ -129,7 +197,7 @@ aside{position:relative}
  </aside>
  <main><div class="main-width">
   <div class="app-header">
-   <button id="sidebar-toggle" class="icon-button" type="button" aria-label="Alboko barra tolestu" aria-expanded="true" title="Alboko barra tolestu"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg></button>
+   <button id="sidebar-toggle" class="icon-button sidebar-opener" type="button" aria-label="Alboko barra tolestu" aria-expanded="true" title="Alboko barra tolestu"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg></button>
    <strong class="wordmark">aditzapp</strong>
    <span class="header-context">Fisikasi / <span class="block-context" id="selected-block">Indikatiboa</span></span>
   </div>
