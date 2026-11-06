@@ -1,0 +1,23 @@
+{
+  "name": "Aditzapp · Fisikasi",
+  "short_name": "Aditzapp",
+  "description": "Euskarazko aditz-sistemak lantzeko ariketak",
+  "lang": "eu",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "icono-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icono-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
