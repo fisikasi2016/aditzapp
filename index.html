@@ -178,6 +178,11 @@ aside{position:relative}
  #systems .chip{font-size:11px;padding:8px 7px}
  .current-selection .selection-sub{max-width:48%;overflow-wrap:anywhere}
 }
+/* GoatCounter: minimal public visitor counter */
+.visit-counter{display:flex;align-items:center;gap:6px;color:var(--sub);font-size:12px;line-height:1.4;font-variant-numeric:tabular-nums}
+.visit-counter svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.aside-footer .visit-counter{margin-top:13px}
+.mobile-footer .visit-counter{margin-top:13px}
 </style>
 </head>
 <body>
@@ -193,7 +198,7 @@ aside{position:relative}
    <button class="side-btn" data-block="dena">Dena batera</button>
   </nav>
   <blockquote class="sidebar-dedication">Gerezien eta ur azpiko elizen auzoan, ezagutu eta ahaztu ez ditudan ikasle, irakasle eta lagunei<span class="signature">I.R.</span></blockquote>
-  <div class="aside-footer"><img src="logo.png" alt="Fisikasi"><div>© Fisikasi · <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></div></div>
+  <div class="aside-footer"><img src="logo.png" alt="Fisikasi"><div>© Fisikasi · <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></div><span class="visit-counter" aria-label="Bisita kopurua" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><span class="visit-count-value"></span> bisita</span></div>
  </aside>
  <main><div class="main-width">
   <div class="app-header">
@@ -255,9 +260,26 @@ aside{position:relative}
    <div id="oral-area" hidden><div class="prompt"><div class="label">ADITZ-SISTEMA</div><div class="value" id="oral-prompt"></div></div><div id="oral-solutions" class="solutions" aria-live="polite"></div></div>
    <div id="exam-area" hidden><div id="score" class="score" hidden aria-live="polite"></div><div id="exercise-list"></div></div>
   </section>
-  <footer class="mobile-footer"><img src="logo.png" alt="Fisikasi"><p>Fisikasi · <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p></footer>
+  <footer class="mobile-footer"><img src="logo.png" alt="Fisikasi"><p>Fisikasi · <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p><span class="visit-counter" aria-label="Bisita kopurua" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><span class="visit-count-value"></span> bisita</span></footer>
  </div></main>
 </div>
+<!-- GoatCounter: AditzApp analytics and public visit counter -->
+<script data-goatcounter="https://aditzapp.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script>
+(function () {
+  const goatcounterCode = 'aditzapp';
+  fetch(`https://${goatcounterCode}.goatcounter.com/counter/TOTAL.json`)
+    .then(response => { if (!response.ok) throw new Error('Count not available'); return response.json(); })
+    .then(data => {
+      if (data.count == null) return;
+      document.querySelectorAll('.visit-counter').forEach(element => {
+        element.querySelector('.visit-count-value').textContent = data.count;
+        element.hidden = false;
+      });
+    })
+    .catch(error => console.warn('GoatCounter public counter unavailable:', error));
+})();
+</script>
 <script src="aditzak-data.js"></script><script src="app.js"></script>
 <script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}))}</script>
 </body></html>
